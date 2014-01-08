@@ -27,6 +27,12 @@ place.
 	});
 	$("body").append(widget);
 
+## Installation
+
+### Bower
+
+	$ bower install tkambler/whenLive
+
 ## Amuse me.
 
 A guy walks into a bar and takes a seat. Before he can order a beer, the bowl of pretzels in front of him says "Hey, you're a handsome fellow." The man tries to ignore the bowl of pretzels, and orders a fine Pilsner beer. The bowl of pretzels then says "Ooooh, a pilsner, great choice. You're a smart man." Starting to freak out, the guy says to the bartender "Hey what the hell, this bowl of pretzels keeps saying nice things to me!" Bartender says "Don't worry about it, the pretzels are complimentary."
