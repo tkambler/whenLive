@@ -3,19 +3,14 @@ jQuery.whenLive
 
 ## What is this?
 
-The jQuery.whenLive plugin allows the developer to define one or more callback functions
-to be fired the moment a specified element becomes available within the DOM. This
-functionality allows the developer to defer procedures that are reliant on an element's
-existence within the DOM (such as the calculation of dimensions, etc...) until the
-appropriate time.
+I occasionally find myself creating Javascript components that need to run some type of setup procedure - but only once the component exists and is visible within the DOM tree. Situations in which I run into this problem typically involve calculations that are dependent on a component's dimensions.
 
-## How does it work?
+My experience has been that such a seemingly simple thing to track often isn't. The component in question may not be immediately inserted into the document... It may be created as part of an even larger component that won't be inserted until its own setup routines are complete.
 
-jQuery.whenLive plugs into the 'requestAnimationFrame' function introduced by Paul Irish,
-which you can learn more about [here](http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/).
-A [majority of modern browsers](http://caniuse.com/requestanimationframe) implement this
-functionality, but in the event that one does not, the plugin introduces a polyfill in its
-place.
+$.whenLive allows you to track the DOM tree insertion of one or more elements, while placing an emphasis on performance. Where possible, $.whenLive leverages the relatively new `requestAnimationFrame` function, which you can learn more about [here](http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/) and [here](http://css-tricks.com/using-requestanimationframe/). In short, recurring functions that are invoked via `requestAnimationFrame` will:
+
+* Pause when an active browser tab becomes inactive and vice-versa.
+* Run at an interval that is optimized to match the speed at which the browser is able to update the DOM tree.
 
 ## Pics or it didn't happen.
 
@@ -39,5 +34,4 @@ A guy walks into a bar and takes a seat. Before he can order a beer, the bowl of
 
 ### Notes
 
-* Invoking the $.whenLive method on an element that already exists within the DOM will
-cause the specified callback function to be fired immediately.
+* Invoking the $.whenLive method on an element that already exists within the DOM will cause the specified callback function to be fired immediately.
