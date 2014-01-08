@@ -1,6 +1,6 @@
 {
   "name": "whenlive",
-  "version": "1.5.0",
+  "version": "1.4.0",
   "description": "Allows the developer to define one or more callback functions to be fired the moment a specified element becomes available within the DOM.",
   "main": "dist/jquery.whenlive.js",
   "scripts": {
