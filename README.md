@@ -16,7 +16,7 @@ $.whenLive allows you to track the DOM tree insertion of one or more elements, w
 
 ```javascript
 var widget = $("<div>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
-	$(widget).onLive(function() {
+$(widget).onLive(function() {
 	// Awesomesauce.
 	var height = $(this).height();
 	var width = $(this).width();
