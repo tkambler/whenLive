@@ -46,16 +46,16 @@ $.fn.whenLive = function(fn) {
         }());
         // /polyFill
         $.whenLiveLoop = function() {
-        	for ( var ek in $.whenLiveElements ) {
+            for ( var ek in $.whenLiveElements ) {
                 if ( $.contains(document.documentElement, $.whenLiveElements[ek]['elem'][0]) && $.whenLiveElements[ek]['elem'].is(':visible') ) {
                     // The element exists within the DOM
                     $.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
                     $.whenLiveElements.splice(ek);
                 }
-        	}
-			if ( $.whenLiveElements.length > 0 ) {
-				requestAnimationFrame($.whenLiveLoop);
-			}
+            }
+            if ( $.whenLiveElements.length > 0 ) {
+                requestAnimationFrame($.whenLiveLoop);
+            }
         };
     }
     if ( jQuery.contains(document.documentElement, this[0]) ) {
