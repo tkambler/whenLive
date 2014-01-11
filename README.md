@@ -7,22 +7,36 @@ I occasionally find myself creating Javascript components that need to run some 
 
 My experience has been that such a seemingly simple thing to track often isn't. The component in question may not be immediately inserted into the document... It may be created as part of an even larger component that won't be inserted until its own setup routines are complete.
 
-$.whenLive allows you to track the DOM tree insertion of one or more elements, while placing an emphasis on performance. Where possible, $.whenLive leverages the relatively new `requestAnimationFrame` function, which you can learn more about [here](http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/) and [here](http://css-tricks.com/using-requestanimationframe/). In short, recurring functions that are invoked via `requestAnimationFrame` will:
+$.whenLive allows you to track the DOM tree insertion of one or more elements, while placing an emphasis on performance. When supported, $.whenLive leverages the browser’s [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) notification system. In the event that Mutation Observers are unavailable, $.whenLive leverages the relatively new `requestAnimationFrame` function, which you can learn more about [here](http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/) and [here](http://css-tricks.com/using-requestanimationframe/) - A requestAnimationFrame polyFill is created if that is also unavailable. In short, recurring functions that are invoked via `requestAnimationFrame` will:
 
 * Pause when an active browser tab becomes inactive and vice-versa.
 * Run at an interval that is optimized to match the speed at which the browser is able to update the DOM tree.
 
-## Pics or it didn't happen.
+## Examples
 
-```javascript
-var widget = $("<div>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
-$(widget).onLive(function() {
-	// Awesomesauce.
-	var height = $(this).height();
-	var width = $(this).width();
-});
-$("body").append(widget);
-```
+### Tracking Element Insertion without Visibility
+
+	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+	$widget.whenLive({
+		'visibility': false
+	}, function() {
+		console.log('Example 1 widget has been inserted into the DOM.');
+	});
+
+	$('body').prepend($widget);
+
+### Tracking Element Insertion with Visibility
+
+	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+	$widget.whenLive({
+		'visibility': true
+	}, function() {
+		console.log('Example 1 widget has been inserted into the DOM.');
+	});
+
+	$('body').prepend($widget);
 
 ## Installation
 
