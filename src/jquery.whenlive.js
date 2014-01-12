@@ -20,21 +20,27 @@
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 	function checkElements(container) {
-		if ( !container ) {
-			container = $.whenLiveElements[ek].options.context || document.documentElement;
-		}
-		for ( var ek in $.whenLiveElements ) {
-			if ( $.contains(container, $.whenLiveElements[ek]['elem'][0]) || container === $.whenLiveElements[ek]['elem'][0] ) {
-				// The element exists within the DOM
-				if ( $.whenLiveElements[ek].options.visibility ) {
-					// User has requested that we also check for visibility.
-					if ( $.whenLiveElements[ek]['elem'].is(':visible') ) {
-						// It's visible.
-						$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
-						$.whenLiveElements.splice(ek);
+
+		var i, len, ek, nodes;
+
+		for ( ek in $.whenLiveElements ) {
+			nodes = $.whenLiveElements[ek];
+			for ( i = 0; i < nodes.elem.length; i += 1 ) {
+				if ( !container ) {
+					container = nodes.options.context && nodes.options.context[0] || document.documentElement;
+				}
+				if ( $.contains(container, nodes.elem[i]) || container === nodes.elem[i] ) {
+					// The element exists within the DOM
+					if ( nodes.options.visibility ) {
+						// User has requested that we also check for visibility.
+						if ( $(nodes.elem[i]).is(':visible') ) {
+							// It's visible.
+							nodes.fn.call($.whenLiveElements[ek].elem[i]);
+							$.whenLiveElements.splice(ek);
+						}
+						continue;
 					}
-				} else {
-					$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
+					nodes.fn.call($.whenLiveElements[ek].elem[i]);
 					$.whenLiveElements.splice(ek);
 				}
 			}
@@ -56,6 +62,11 @@
 			options.visibility = false;
 		}
 
+		// Make sure the given context is an jQuery instance.
+		if ( options.context && !(options.context instanceof jQuery) ) {
+			options.context = $(options.context);
+		}
+
 		if ( typeof fn !== 'function' ) {
 			return;
 		}
@@ -70,7 +81,7 @@
 
 			if ( MutationObserver ) {
 
-				var observer = new WebKitMutationObserver(function(mutations) {
+				var observer = new MutationObserver(function(mutations) {
 					for ( var mi = 0; mi < mutations.length; mi++ ) {
 						var mutation = mutations[mi];
 						checkElements(mutation.target);

@@ -5,17 +5,17 @@
 
 function example1() {
 
-	console.log('Running example 1...');
+	console.log('Running example 1 ...');
 
 	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
-	$widget.on('whenLive', '#foobar', {
+	$widget.on('whenLive', '#foo', {
 		'visibility': false
 	}, function() {
 		console.log('Example 1 widget has been inserted into the DOM with context.');
 	});
 
-	$('#foobar').append($widget);
+	$('#foo').append($widget);
 
 };
 
@@ -26,19 +26,20 @@ function example1() {
 
 function example2() {
 
-	console.log('Running example 2...');
+	console.log('Running example 2 ...');
 
 	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
 	$widget.hide();
 
 	$widget.whenLive({
-		'visibility': true
+		'visibility': true,
+		context: '#bar'
 	}, function() {
-		console.log('Example 2 widget has been inserted into the DOM.');
+		console.log('Example 2 widget has been inserted into the DOM with context.');
 	});
 
-	$('body').prepend($widget);
+	$('#bar').append($widget);
 
 	setTimeout(function() {
 		$widget.show();
@@ -48,7 +49,7 @@ function example2() {
 
 function example3() {
 
-	console.log('Running example 3...');
+	console.log('Running example 3 ...');
 
 	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
@@ -62,6 +63,8 @@ function example3() {
 
 }
 
-example1();
-setTimeout(example2, 4000);
-setTimeout(example3, 9000);
+$(function () {
+	example1();
+	setTimeout(example2, 4000);
+	setTimeout(example3, 9000);
+});
