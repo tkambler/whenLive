@@ -3,19 +3,19 @@
  * element into the DOM tree, without taking the element's visibility into account.
  */
 
-var example1 = function() {
+function example1() {
 
 	console.log('Running example 1...');
 
 	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
-	$widget.whenLive({
+	$widget.on('whenLive', '#foobar', {
 		'visibility': false
 	}, function() {
-		console.log('Example 1 widget has been inserted into the DOM.');
+		console.log('Example 1 widget has been inserted into the DOM with context.');
 	});
 
-	$('body').prepend($widget);
+	$('#foobar').append($widget);
 
 };
 
@@ -24,7 +24,7 @@ var example1 = function() {
  * element into the DOM tree, while also taking the element's visibility into account.
  */
 
-var example2 = function() {
+function example2() {
 
 	console.log('Running example 2...');
 
@@ -46,7 +46,22 @@ var example2 = function() {
 
 }
 
+function example3() {
+
+	console.log('Running example 3...');
+
+	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+	$widget.on('whenLive', function() {
+		console.log('Example 3 widget has been inserted into the DOM.');
+	});	
+
+	setTimeout(function() {
+		$('body').prepend($widget);
+	}, 3000);
+
+}
+
 example1();
-setTimeout(function() {
-	example2();
-}, 4000);
+setTimeout(example2, 4000);
+setTimeout(example3, 9000);

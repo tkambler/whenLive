@@ -19,9 +19,9 @@
 
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-	var checkElements = function(container) {
+	function checkElements(container) {
 		if ( !container ) {
-			container = document.documentElement;
+			container = $.whenLiveElements[ek].options.context || document.documentElement;
 		}
 		for ( var ek in $.whenLiveElements ) {
 			if ( $.contains(container, $.whenLiveElements[ek]['elem'][0]) || container === $.whenLiveElements[ek]['elem'][0] ) {
@@ -41,7 +41,7 @@
 		}
 	};
 
-	$.fn.whenLive = function(options, fn) {
+	$.fn.whenLive = function whenLive(options, fn) {
 
 		var self = this;
 
@@ -128,7 +128,7 @@
 
 		}
 
-		if ( jQuery.contains(document.documentElement, this[0]) ) {
+		if ( jQuery.contains(options.context || document.documentElement, this[0]) ) {
 			// The element exists within the DOM
 			if ( options.visibility ) {
 				if ( $(this).is(':visible') ) {
@@ -162,6 +162,27 @@
 			}
 		}
 
+	};
+
+	// Setting up custom `whenLive` event. The context-parameter
+	// is used to look inside for DOM-insertion of the specified
+	// element.
+	// 
+	// Example:
+	// 
+	// 	$('<div>To be inserted</div>').on('whenLive', '#context', {
+	// 		visibility: true
+	// 	}, function () {
+	// 		console.log('Element has been inserted.');
+	// 	})
+	$.event.special.whenLive = {
+		add: function (evnt) {
+			var data = evnt.data || {};
+			$(this).whenLive({
+				visibility: data.visibility,
+				context: evnt.selector && $(evnt.selector)
+			}, evnt.handler);
+		}
 	};
 
 })(jQuery);
