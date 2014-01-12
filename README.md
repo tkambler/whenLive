@@ -16,6 +16,7 @@ $.whenLive allows you to track the DOM tree insertion of one or more elements, w
 
 ### Tracking Element Insertion without Visibility
 
+```javascript
 	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
 	$widget.whenLive({
@@ -25,9 +26,11 @@ $.whenLive allows you to track the DOM tree insertion of one or more elements, w
 	});
 
 	$('body').prepend($widget);
+```
 
 ### Tracking Element Insertion with Visibility
 
+```javascript
 	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
 	$widget.whenLive({
@@ -37,6 +40,7 @@ $.whenLive allows you to track the DOM tree insertion of one or more elements, w
 	});
 
 	$('body').prepend($widget);
+```
 
 ## Installation
 
