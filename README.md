@@ -42,6 +42,34 @@ $widget.whenLive({
 $('body').prepend($widget);
 ```
 
+### Using `$.fn.on`-method with `whenLive`-event
+
+```javascript
+var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+$widget.on('whenLive', {
+	'visibility': true
+}, function() {
+	console.log('Example 1 widget has been inserted into the DOM.');
+});
+
+$('body').append($widget);
+```
+
+### Setting a context to look up
+
+```javascript
+var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+$widget.on('whenLive', '#foobar', {
+	'visibility': true
+}, function() {
+	console.log('Example 1 widget has been inserted into the DOM.');
+});
+
+$('#foobar').append($widget);
+```
+
 ## Installation
 
 ### Bower
