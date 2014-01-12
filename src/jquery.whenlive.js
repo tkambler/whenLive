@@ -133,6 +133,17 @@
 			if ( options.visibility ) {
 				if ( $(this).is(':visible') ) {
 					fn();
+				} else {
+					$.whenLiveElements.push({
+						'elem': self,
+						'fn': fn,
+						'options': options
+					});
+					if ( !MutationObserver ) {
+						if ( $.whenLiveElements.length === 1 ) {
+							requestAnimationFrame($.whenLiveLoop);
+						}
+					}
 				}
 			} else {
 				fn();
