@@ -17,29 +17,29 @@ $.whenLive allows you to track the DOM tree insertion of one or more elements, w
 ### Tracking Element Insertion without Visibility
 
 ```javascript
-	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
-	$widget.whenLive({
-		'visibility': false
-	}, function() {
-		console.log('Example 1 widget has been inserted into the DOM.');
-	});
+$widget.whenLive({
+	'visibility': false
+}, function() {
+	console.log('Example 1 widget has been inserted into the DOM.');
+});
 
-	$('body').prepend($widget);
+$('body').prepend($widget);
 ```
 
 ### Tracking Element Insertion with Visibility
 
 ```javascript
-	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
 
-	$widget.whenLive({
-		'visibility': true
-	}, function() {
-		console.log('Example 1 widget has been inserted into the DOM.');
-	});
+$widget.whenLive({
+	'visibility': true
+}, function() {
+	console.log('Example 1 widget has been inserted into the DOM.');
+});
 
-	$('body').prepend($widget);
+$('body').prepend($widget);
 ```
 
 ## Installation
