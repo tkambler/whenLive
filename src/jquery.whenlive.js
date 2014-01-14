@@ -70,7 +70,7 @@
 
 			if ( MutationObserver ) {
 
-				var observer = new WebKitMutationObserver(function(mutations) {
+				var observer = new MutationObserver(function(mutations) {
 					for ( var mi = 0; mi < mutations.length; mi++ ) {
 						var mutation = mutations[mi];
 						checkElements(mutation.target);
