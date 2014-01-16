@@ -5,7 +5,7 @@ jQuery.whenLive
 
 I occasionally find myself creating Javascript components that need to run some type of setup procedure - but only once the component exists and is visible within the DOM tree. Situations in which I run into this problem typically involve calculations that are dependent on a component's dimensions.
 
-My experience has been that such a seemingly simple thing to track often isn't. The component in question may not be immediately inserted into the document... It may be created as part of an even larger component that won't be inserted until its own setup routines are complete.
+My experience has been that such a seemingly simple thing to track often isn't. The component in question may not be immediately inserted into the document - it may be created as part of an even larger component that won't be inserted until its own setup routines are complete.
 
 $.whenLive allows you to track the DOM tree insertion of one or more elements, while placing an emphasis on performance. When supported, $.whenLive leverages the browser’s [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) notification system. In the event that Mutation Observers are unavailable, $.whenLive leverages the relatively new `requestAnimationFrame` function, which you can learn more about [here](http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/) and [here](http://css-tricks.com/using-requestanimationframe/) - A requestAnimationFrame polyFill is created if that is also unavailable. In short, recurring functions that are invoked via `requestAnimationFrame` will:
 
