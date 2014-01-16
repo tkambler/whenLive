@@ -1,0 +1,11 @@
+{
+    "dir": "/dist",
+    "default": "jquery.whenlive.js",
+    "run": [
+        "npm install",
+        "grunt"
+    ],
+    "notify": [
+		"tkambler@gmail.com"
+    ]
+}
