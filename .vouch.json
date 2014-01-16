@@ -5,6 +5,10 @@
         "npm install",
         "grunt"
     ],
+    "express": {
+    	"script": "express.vouch.js",
+    	"port": 8085
+    },
     "notify": [
 		"tkambler@gmail.com"
     ]
