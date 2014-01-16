@@ -22,7 +22,7 @@ var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore
 $widget.whenLive({
 	'visibility': false
 }, function() {
-	console.log('Example 1 widget has been inserted into the DOM.');
+	console.log('Widget has been inserted into the DOM.');
 });
 
 $('body').prepend($widget);
@@ -36,7 +36,7 @@ var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore
 $widget.whenLive({
 	'visibility': true
 }, function() {
-	console.log('Example 1 widget has been inserted into the DOM.');
+	console.log('Widget has been inserted into the DOM and is visible.');
 });
 
 $('body').prepend($widget);
@@ -54,4 +54,5 @@ A guy walks into a bar and takes a seat. Before he can order a beer, the bowl of
 
 ### Notes
 
-* Invoking the $.whenLive method on an element that already exists within the DOM will cause the specified callback function to be fired immediately.
+* If the targeted element already meets the specified criteria when the plugin is called, the callback function will be fired immediately.
+
