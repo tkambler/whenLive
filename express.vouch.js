@@ -1,3 +1,4 @@
+var port = process.argv[2];
 var express = require('express');
 var server = express(); // better instead
 server.configure(function(){
@@ -5,4 +6,4 @@ server.configure(function(){
 	server.use(express.static(__dirname + '/example'));
 });
 
-module.exports = server;
+server.listen(port);
