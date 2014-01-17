@@ -19,29 +19,35 @@
 
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-	var checkElements = function(container) {
-		if ( !container ) {
-			container = document.documentElement;
-		}
-		for ( var ek in $.whenLiveElements ) {
-			if ( $.contains(container, $.whenLiveElements[ek]['elem'][0]) || container === $.whenLiveElements[ek]['elem'][0] ) {
-				// The element exists within the DOM
-				if ( $.whenLiveElements[ek].options.visibility ) {
-					// User has requested that we also check for visibility.
-					if ( $.whenLiveElements[ek]['elem'].is(':visible') ) {
-						// It's visible.
-						$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
-						$.whenLiveElements.splice(ek);
+	function checkElements(container) {
+
+		var i, len, ek, nodes;
+
+		for ( ek in $.whenLiveElements ) {
+			nodes = $.whenLiveElements[ek];
+			for ( i = 0; i < nodes.elem.length; i += 1 ) {
+				if ( !container ) {
+					container = nodes.options.context && nodes.options.context[0] || document.documentElement;
+				}
+				if ( $.contains(container, nodes.elem[i]) || container === nodes.elem[i] ) {
+					// The element exists within the DOM
+					if ( nodes.options.visibility ) {
+						// User has requested that we also check for visibility.
+						if ( $(nodes.elem[i]).is(':visible') ) {
+							// It's visible.
+							nodes.fn.call($.whenLiveElements[ek].elem[i]);
+							$.whenLiveElements.splice(ek);
+						}
+						continue;
 					}
-				} else {
-					$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
+					nodes.fn.call($.whenLiveElements[ek].elem[i]);
 					$.whenLiveElements.splice(ek);
 				}
 			}
 		}
 	};
 
-	$.fn.whenLive = function(options, fn) {
+	$.fn.whenLive = function whenLive(options, fn) {
 
 		var self = this;
 
@@ -54,6 +60,11 @@
 
 		if ( typeof options.visibility !== 'boolean' ) {
 			options.visibility = false;
+		}
+
+		// Make sure the given context is an jQuery instance.
+		if ( options.context && !(options.context instanceof jQuery) ) {
+			options.context = $(options.context);
 		}
 
 		if ( typeof fn !== 'function' ) {
@@ -128,7 +139,7 @@
 
 		}
 
-		if ( jQuery.contains(document.documentElement, this[0]) ) {
+		if ( jQuery.contains(options.context || document.documentElement, this[0]) ) {
 			// The element exists within the DOM
 			if ( options.visibility ) {
 				if ( $(this).is(':visible') ) {
@@ -162,6 +173,27 @@
 			}
 		}
 
+	};
+
+	// Setting up custom `whenLive` event. The context-parameter
+	// is used to look inside for DOM-insertion of the specified
+	// element.
+	// 
+	// Example:
+	// 
+	// 	$('<div>To be inserted</div>').on('whenLive', '#context', {
+	// 		visibility: true
+	// 	}, function () {
+	// 		console.log('Element has been inserted.');
+	// 	})
+	$.event.special.whenLive = {
+		add: function (evnt) {
+			var data = evnt.data || {};
+			$(this).whenLive({
+				visibility: data.visibility,
+				context: evnt.selector && $(evnt.selector)
+			}, evnt.handler);
+		}
 	};
 
 })(jQuery);
