@@ -74,7 +74,7 @@
 					for ( var mi = 0; mi < mutations.length; mi++ ) {
 						var mutation = mutations[mi];
 						checkElements(mutation.target);
-						if ( $.whenLiveElements.length ) {
+                        if ( $.whenLiveElements.length && mutation.addedNodes != null ) {
 							for ( var ni = 0; ni < mutation.addedNodes.length; ni ++ ) {
 								var node = mutation.addedNodes[ni];
 								checkElements(node);
