@@ -31,11 +31,11 @@
 					if ( $.whenLiveElements[ek]['elem'].is(':visible') ) {
 						// It's visible.
 						$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
-						$.whenLiveElements.splice(ek);
+						$.whenLiveElements.splice(ek, 1);
 					}
 				} else {
 					$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
-					$.whenLiveElements.splice(ek);
+					$.whenLiveElements.splice(ek, 1);
 				}
 			}
 		}
