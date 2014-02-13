@@ -18,6 +18,30 @@ Browsers that implement Mutation Observers will see the best performance, but br
 
 ## Examples
 
+### Tracking the Availability of a Specific Element
+
+In the following example, we track the availability of a specific jQuery element. Our callback will fire when the element exists within the DOM *and* is visible.
+
+```javascript
+var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+$widget.whenLive(function(el) {
+	// The widget exists within the DOM and is visible.
+});
+
+$('body').prepend($widget);
+```
+
+### Tracking the Availability of Elements with a Specified Class
+
+In the following example, we track the ability of all elements with a specified class. Our callback function will fire when a matching element is inserted into the DOM *and* becomes visible.
+
+```javascript
+$('.dropdown').whenLive(function(el) {
+	// An element with the class 'dropdown' exists within the DOM and is visible.
+});
+```
+
 ### Tracking Element Insertion without Visibility
 
 ```javascript
@@ -27,20 +51,6 @@ $widget.whenLive({
 	'visibility': false
 }, function() {
 	console.log('Widget has been inserted into the DOM.');
-});
-
-$('body').prepend($widget);
-```
-
-### Tracking Element Insertion with Visibility
-
-```javascript
-var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
-
-$widget.whenLive({
-	'visibility': true
-}, function() {
-	console.log('Widget has been inserted into the DOM and is visible.');
 });
 
 $('body').prepend($widget);

@@ -19,23 +19,43 @@
 
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
+	var processSelectorResult = function(el, fn) {
+		if ( $(el).data('whenlive_processed') ) {
+			return false;
+		}
+		if ( !$(el).is(':visible') ) {
+			return false;
+		}
+		fn(el);
+		$(el).data('whenlive_processed', true);
+		return true;
+	};
+
 	var checkElements = function(container) {
 		if ( !container ) {
 			container = document.documentElement;
 		}
 		for ( var ek in $.whenLiveElements ) {
-			if ( $.contains(container, $.whenLiveElements[ek]['elem'][0]) || container === $.whenLiveElements[ek]['elem'][0] ) {
-				// The element exists within the DOM
-				if ( $.whenLiveElements[ek].options.visibility ) {
-					// User has requested that we also check for visibility.
-					if ( $.whenLiveElements[ek]['elem'].is(':visible') ) {
-						// It's visible.
+			if ( $.whenLiveElements[ek].selector ) {
+				// We're looking for elements with a specified class
+				$($.whenLiveElements[ek].selector, container).each(function(elk, el) {
+					processSelectorResult(el, $.whenLiveElements[ek].fn);
+				});
+			} else {
+				// We're looking for specific elements
+				if ( $.contains(container, $.whenLiveElements[ek]['elem'][0]) || container === $.whenLiveElements[ek]['elem'][0] ) {
+					// The element exists within the DOM
+					if ( $.whenLiveElements[ek].options.visibility ) {
+						// User has requested that we also check for visibility.
+						if ( $.whenLiveElements[ek]['elem'].is(':visible') ) {
+							// It's visible.
+							$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
+							$.whenLiveElements.splice(ek, 1);
+						}
+					} else {
 						$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
 						$.whenLiveElements.splice(ek, 1);
 					}
-				} else {
-					$.whenLiveElements[ek].fn.call($.whenLiveElements[ek].elem);
-					$.whenLiveElements.splice(ek, 1);
 				}
 			}
 		}
@@ -53,7 +73,7 @@
 		}
 
 		if ( typeof options.visibility !== 'boolean' ) {
-			options.visibility = false;
+			options.visibility = true;
 		}
 
 		if ( typeof fn !== 'function' ) {
@@ -128,30 +148,19 @@
 
 		}
 
-		if ( jQuery.contains(document.documentElement, this[0]) ) {
-			// The element exists within the DOM
-			if ( options.visibility ) {
-				if ( $(this).is(':visible') ) {
-					fn();
-				} else {
-					$.whenLiveElements.push({
-						'elem': self,
-						'fn': fn,
-						'options': options
-					});
-					if ( !MutationObserver ) {
-						if ( $.whenLiveElements.length === 1 ) {
-							requestAnimationFrame($.whenLiveLoop);
-						}
-					}
-				}
-			} else {
-				fn();
-			}
-		} else {
-			// The element is outside of the DOM
+		if ( this.selector ) {
+
+			// We're watching for any elements that match the specified selector
+
+			// Process any existing matches
+			$(this.selector).filter(':visible').each(function(elk, el) {
+				processSelectorResult(el, fn);
+			});
+
+			// Watch for future matches
 			$.whenLiveElements.push({
-				'elem': self,
+				'elem': null,
+				'selector': this.selector,
 				'fn': fn,
 				'options': options
 			});
@@ -160,6 +169,47 @@
 					requestAnimationFrame($.whenLiveLoop);
 				}
 			}
+
+		} else {
+
+			// We're watching for a specific element
+
+			if ( jQuery.contains(document.documentElement, this[0]) ) {
+				// The element exists within the DOM
+				if ( options.visibility ) {
+					if ( $(this).is(':visible') ) {
+						fn();
+					} else {
+						$.whenLiveElements.push({
+							'elem': self,
+							'selector': null,
+							'fn': fn,
+							'options': options
+						});
+						if ( !MutationObserver ) {
+							if ( $.whenLiveElements.length === 1 ) {
+								requestAnimationFrame($.whenLiveLoop);
+							}
+						}
+					}
+				} else {
+					fn();
+				}
+			} else {
+				// The element is outside of the DOM
+				$.whenLiveElements.push({
+					'elem': self,
+					'selector': null,
+					'fn': fn,
+					'options': options
+				});
+				if ( !MutationObserver ) {
+					if ( $.whenLiveElements.length === 1 ) {
+						requestAnimationFrame($.whenLiveLoop);
+					}
+				}
+			}
+
 		}
 
 	};
