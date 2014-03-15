@@ -60,7 +60,7 @@ $('body').prepend($widget);
 
 ### Bower
 
-	$ bower install tkambler/whenLive
+	$ bower install whenlive
 
 ## Amuse me.
 
