@@ -46,8 +46,26 @@ var example2 = function() {
 
 }
 
+var example3 = function() {
+
+	console.log('Running example 3...');
+
+	var $widget = $("<div class='widget'>I am a nobody. Nobody is perfect. Therefore, I am perfect.</div>");
+
+	$(".widget").whenLive('example.added');
+
+	$(document).bind('example.added', function(evt) {
+		console.log("foo.event fired with data %o", evt);
+	});
+
+	$('body').prepend($widget);
+
+}
+
 example1();
 setTimeout(function() {
 	example2();
 }, 4000);
-
+setTimeout(function() {
+	example3();
+}, 8000);

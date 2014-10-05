@@ -8,11 +8,11 @@
  * Tim Ambler <tkambler@gmail.com>
  */
 (function(root, factory) {
-    if ( typeof define === 'function' && define.amd ) {
-        define(['jquery'], factory);
-    } else {
-        factory(jQuery);
-    }
+	if ( typeof define === 'function' && define.amd ) {
+		define(['jquery'], factory);
+	} else {
+		factory(jQuery);
+	}
 })(this, function(jQuery) {
 
 (function($) {
@@ -68,12 +68,25 @@
 		if ( typeof options === 'function' ) {
 			fn = options;
 			options = {};
+		} else if (typeof options === 'string' ) {
+			fn = options;
+			options = {};
 		} else if ( typeof options !== 'object' ) {
 			options = {};
 		}
 
 		if ( typeof options.visibility !== 'boolean' ) {
 			options.visibility = true;
+		}
+
+		if ( typeof fn === 'string' ) {
+			var evtName = fn;
+			fn = function(el) {
+				$(document).trigger({
+					type: evtName,
+					element: el
+				});
+			}
 		}
 
 		if ( typeof fn !== 'function' ) {
@@ -94,7 +107,7 @@
 					for ( var mi = 0; mi < mutations.length; mi++ ) {
 						var mutation = mutations[mi];
 						checkElements(mutation.target);
-                        if ( $.whenLiveElements.length && mutation.addedNodes != null ) {
+						if ( $.whenLiveElements.length && mutation.addedNodes != null ) {
 							for ( var ni = 0; ni < mutation.addedNodes.length; ni ++ ) {
 								var node = mutation.addedNodes[ni];
 								checkElements(node);
