@@ -84,7 +84,7 @@
 			fn = function(el) {
 				$(document).trigger({
 					type: evtName,
-					element: el
+					addedElement: el
 				});
 			}
 		}
