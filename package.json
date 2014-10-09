@@ -24,7 +24,16 @@
   },
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-contrib-uglify": "~0.2.7",
-    "express": "~3.4.7"
+    "grunt-concurrent": "^1.0.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-open": "^0.2.3",
+    "load-grunt-tasks": "^0.6.0",
+    "time-grunt": "^1.0.0",
+    "express": "^4.9.5",
+    "grunt": "^0.4.5"
+  },
+  "dependencies": {
   }
 }

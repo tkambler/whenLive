@@ -1,8 +1,6 @@
 var express = require('express');
-var server = express(); // better instead
-server.configure(function(){
-	server.use('/', express.static(__dirname + '/src'));
-	server.use(express.static(__dirname + '/example'));
-});
+var app = express();
+app.use('/src', express.static(__dirname + '/src'));
+app.use(express.static(__dirname + '/example'));
 
-server.listen(3000);
+module.exports = app;

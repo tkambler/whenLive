@@ -83,6 +83,14 @@ $widget.whenLive({
 ### Bower
 
 	$ bower install whenlive
+	
+## Development
+
+```
+$ npm install
+$ grunt server
+$ grunt build
+```
 
 ## Amuse me.
 
