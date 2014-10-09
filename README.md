@@ -56,6 +56,28 @@ $widget.whenLive({
 $('body').prepend($widget);
 ```
 
+### Triggering Custom Events
+
+Finally, you can also trigger custom events in response to the addition of specific elements to the DOM by binding against the `document` object.
+
+```javascript
+// declare an event listener
+$(document).bind("dropdown.added", function(event) {
+	var $dropdown = $(event.addedElement);
+	// whatever
+});
+
+$(".dropdown").whenLive('dropdown.added');
+```
+
+Of course you can use the same options when using custom events:
+
+```javascript
+$widget.whenLive({
+	'visibility': false
+}, 'dropdown.added');
+```
+
 ## Installation
 
 ### Bower
@@ -69,4 +91,3 @@ A guy walks into a bar and takes a seat. Before he can order a beer, the bowl of
 ### Notes
 
 * If the targeted element already meets the specified criteria when the plugin is called, the callback function will be fired immediately.
-
